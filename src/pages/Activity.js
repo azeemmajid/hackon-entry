@@ -18,7 +18,7 @@ export function Activity({ logState }) {
     const activityDisplay = [];
     log.forEach((logEntry) => {
         activityDisplay.push(
-            <LogEntry state={logEntry.state} activity={logEntry.activity} />
+            <LogEntry state={logEntry.state} activity={logEntry.activity} timestamp={logEntry.timestamp} />
         );
     });
     return (
