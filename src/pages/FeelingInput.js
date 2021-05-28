@@ -26,6 +26,7 @@ export function FeelingInput({ feelingState, logState }) {
         const newLog = log.concat([
             {
                 ...feeling,
+                timestamp: (new Date()).getTime(),
                 id: createId(),
             },
         ]);
