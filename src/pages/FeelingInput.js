@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { FeelingSelector, Journal } from '../components';
+import { createId } from '../lib';
 
 export function FeelingInput({ feelingState, logState }) {
     const [error, setError] = useState({});
@@ -22,7 +23,12 @@ export function FeelingInput({ feelingState, logState }) {
             return;
         }
         setError({});
-        const newLog = log.concat([feeling]);
+        const newLog = log.concat([
+            {
+                ...feeling,
+                id: createId(),
+            },
+        ]);
         setLog(newLog);
     };
 
