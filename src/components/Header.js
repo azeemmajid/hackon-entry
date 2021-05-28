@@ -1,13 +1,14 @@
-import react from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
-const Header = () => {
+export function Header() {
     const styles = {
         header: {
             position: 'relative',
             display: 'flex',
             zIndex: 2,
             justifyContent: 'space-between',
-            flexDirection: ''
+            flexDirection: '',
         },
         navList: {
             listStyle: 'none',
@@ -17,6 +18,7 @@ const Header = () => {
             margin: '0rem 1.2rem',
             fontWeight: '600',
             fontSize: '1rem',
+            color: 'inherit',
         },
         title: {
             display: 'flex',
@@ -25,23 +27,26 @@ const Header = () => {
             margin: '1rem 1rem',
         },
         titleLink: {
-            textDecoration: 'none'
-        }
-    }
+            textDecoration: 'none',
+        },
+    };
 
-    return <div style={styles.header}>
-        {/* title */}
-        <div className="title" style={styles.title}>
-            <a href="/" style={styles.titleLink}>
-                TITLE
-            </a>
+    return (
+        <div style={styles.header}>
+            <div className="title" style={styles.title}>
+                <a href="/" style={styles.titleLink}>
+                    TITLE
+                </a>
+            </div>
+            <ul class="navList">
+                <li style={styles.listItem}>
+                    <Link to="/">Home</Link>
+                </li>
+                <li style={styles.listItem}>
+                    <Link to="/activity">Activity</Link>
+                </li>
+                <li style={styles.listItem}>Three</li>
+            </ul>
         </div>
-        <ul style={styles.navList}>
-            <li style={styles.listItem}>Home</li>
-            <li style={styles.listItem}>Two</li>
-            <li style={styles.listItem}>Three</li>
-        </ul>
-    </div>
-};
-
-export default Header;
+    );
+}

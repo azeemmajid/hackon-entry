@@ -1,18 +1,48 @@
-const FeelingButton = ({ setFeeling, value }) => {
-	return <button onClick={() => setFeeling(value)}>{value}</button>;
+import React from 'react';
+
+const FeelingButton = ({ onClick, value, feeling }) => {
+    const handleClick = () => {
+        const current = {
+            ...feeling,
+            state: value,
+        };
+        onClick(current);
+    };
+    return <button onClick={handleClick}>{value}</button>;
 };
 
-const FeelingSelector = ({ feeling, setFeeling }) => {
-	return <div>
-        <h1>How are you doing today</h1>
+export function FeelingSelector({ feeling, setFeeling }) {
+    return (
         <div>
-          <FeelingButton onClick={setFeeling} value={"Very Happy"} />
-          <FeelingButton onClick={setFeeling} value={"Happy"} />
-          <FeelingButton onClick={setFeeling} value={"Mediocre"} />
-          <FeelingButton onClick={setFeeling} value={"Sad"} />
-          <FeelingButton onClick={setFeeling} value={"Very Sad"} />
+            <h1>How are you doing today</h1>
+            <div>
+                <br />
+                <FeelingButton
+                    onClick={setFeeling}
+                    value={'Very Sad'}
+                    feeling={feeling}
+                />
+                <FeelingButton
+                    onClick={setFeeling}
+                    value={'Sad'}
+                    feeling={feeling}
+                />
+                <FeelingButton
+                    onClick={setFeeling}
+                    value={'Mediocre'}
+                    feeling={feeling}
+                />
+                <FeelingButton
+                    onClick={setFeeling}
+                    value={'Happy'}
+                    feeling={feeling}
+                />
+                <FeelingButton
+                    onClick={setFeeling}
+                    value={'Very Happy'}
+                    feeling={feeling}
+                />
+            </div>
         </div>
-      </div>;
-};
-
-export default FeelingSelector;
+    );
+}
