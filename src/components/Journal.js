@@ -4,3 +4,5 @@ const Journal = () => {
 		<textarea></textarea>
 	</div>	
 };
+
+export default Journal;
