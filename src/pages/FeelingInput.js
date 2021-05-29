@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { FeelingSelector, Journal } from '../components';
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 import { addLog, resetLog } from '../actions';
 import { createId } from '../lib';
 
@@ -9,6 +10,7 @@ function FeelingInput({ dispatch }) {
     const [error, setError] = useState({});
     const [modalOpen, setModal] = useState(false);
     const [feeling, setFeeling] = useState({});
+    const history = useHistory();
     // const { feeling, setFeeling } = feelingState;
 
     const toggleErrorModal = () => {
@@ -29,6 +31,7 @@ function FeelingInput({ dispatch }) {
             ...feeling,
             id: createId(),
         }));
+        history.push('/suggestedActivities');
     };
 
     const reset = () => {dispatch(resetLog())};

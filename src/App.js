@@ -1,7 +1,7 @@
 // import { useState } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import { Header } from './components';
-import { FeelingInput, Activity } from './pages';
+import { FeelingInput, Activity, SuggestedActivities } from './pages';
 import './App.css';
 
 export default function App() {
@@ -16,6 +16,9 @@ export default function App() {
                     </Route>
                     <Route path="/activity">
                         <Activity />
+                    </Route>
+                    <Route path="/suggestedActivities">
+                        <SuggestedActivities />
                     </Route>
                 </Switch>
                 {/* Journal - add activiites and write what you did */}
