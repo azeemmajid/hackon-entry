@@ -31,4 +31,5 @@ export const colorMap = {
 		level: 3,
 		color: 'blue'
 	}
+
 };

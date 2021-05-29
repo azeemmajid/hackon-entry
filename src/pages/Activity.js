@@ -6,7 +6,7 @@ import { colorMap } from '../lib';
 const sortByMonth = (logEntry) => {
     let byMonth = {};
     let d = new Date(logEntry.timestamp);
-    d = (d.getFullYear()-1970)*12 + d.getMonth();
+    d = (d.getFullYear() - 1970) * 12 + d.getMonth();
     byMonth[d] = byMonth[d] || [];
     byMonth[d].push(logEntry);
     return byMonth;
@@ -14,13 +14,13 @@ const sortByMonth = (logEntry) => {
 
 const findStreak = (logs) => {
     let count = 0;
-    for(const [i, v] of logs.entries()) {
-        if(i === 0) {
+    for (const [i, v] of logs.entries()) {
+        if (i === 0) {
             count++;
             continue;
         }
 
-        if(v - logs[i-1] <= 86400000) {
+        if (v - logs[i - 1] <= 86400000) {
             count++;
         } else {
             break;
@@ -38,7 +38,11 @@ function Activity({ logs }) {
     const activityDisplay = [];
     logs.forEach((logEntry) => {
         activityDisplay.push(
-            <LogEntry state={logEntry.state} activity={logEntry.activity} timestamp={logEntry.timestamp} />
+            <LogEntry
+                state={logEntry.state}
+                activity={logEntry.activity}
+                timestamp={logEntry.timestamp}
+            />
         );
     });
     return (
@@ -55,6 +59,6 @@ function Activity({ logs }) {
     );
 }
 
-const mapStateToProps = state => state;
+const mapStateToProps = (state) => state;
 
 export default connect(mapStateToProps)(Activity);

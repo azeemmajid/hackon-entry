@@ -1,10 +1,10 @@
-export const addLog = ({state, activity, id}) => {
-	return {
-		type: 'ADD_LOG',
-		state,
-		activity,
-		id
-	}
+export const addLog = ({ state, activity, id }) => {
+    return {
+        type: 'ADD_LOG',
+        state,
+        activity,
+        id,
+    };
 };
 
 export const setLogState = ({ id, state }) => {

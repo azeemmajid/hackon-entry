@@ -34,11 +34,9 @@ export function Header() {
     return (
         <div style={styles.header}>
             <div className="title" style={styles.title}>
-                <a href="/" style={styles.titleLink}>
-                    TITLE
-                </a>
+                <Link to="/">TITLE</Link>
             </div>
-            <ul class="navList">
+            <ul className="navList">
                 <li style={styles.listItem}>
                     <Link to="/">Home</Link>
                 </li>

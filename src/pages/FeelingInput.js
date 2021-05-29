@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { FeelingSelector, Journal } from '../components';
+import { FeelingSelector, Journal, MoodCounter } from '../components';
 import { connect } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { addLog, resetLog } from '../actions';
 import { createId } from '../lib';
 
-function FeelingInput({ dispatch }) {
+function FeelingInput({ dispatch, logs }) {
+    console.log(logs);
     const [error, setError] = useState({});
     const [modalOpen, setModal] = useState(false);
     const [feeling, setFeeling] = useState({});
@@ -27,14 +28,18 @@ function FeelingInput({ dispatch }) {
             return;
         }
         setError({});
-        dispatch(addLog({
-            ...feeling,
-            id: createId(),
-        }));
+        dispatch(
+            addLog({
+                ...feeling,
+                id: createId(),
+            })
+        );
         history.push('/suggestedActivities');
     };
 
-    const reset = () => {dispatch(resetLog())};
+    const reset = () => {
+        dispatch(resetLog());
+    };
 
     useEffect(() => {
         console.log(feeling);
@@ -53,8 +58,11 @@ function FeelingInput({ dispatch }) {
             <button type="button" onClick={handleSave}>
                 Save
             </button>
+            <MoodCounter />
         </div>
     );
 }
 
-export default connect()(FeelingInput);
+const mapStateToProps = (state) => state;
+
+export default connect(mapStateToProps)(FeelingInput);
