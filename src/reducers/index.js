@@ -12,13 +12,37 @@ const logs = (state = [], action) => {
                 	id: action.id,
 				}
 			]
+		case 'SET_LOG_STATE':
+			return state.map((item) => {
+				if(item.id !== action.id) {
+					return item;
+				}
+
+				return {
+					...item,
+					state: action.state,
+				};
+			})
 		case 'RESET_LOG':
 			return [];
 		default:
-		return state;
+			return state;
 	}
 };
 
+const symbl = (state = { token: '' }, action) => {
+	switch(action.type) {
+		case 'SET_SYMBL':
+			return {
+				...state,
+				token: action.token
+			};
+		default:
+			return state;
+	}
+}
+
 export default combineReducers({
-	logs
+	logs,
+	symbl,
 });

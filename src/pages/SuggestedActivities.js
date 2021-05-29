@@ -1,5 +1,9 @@
 import { connect } from 'react-redux';
 import { colorMap } from '../lib';
+import { setLogState } from '../actions';
+import { useState, useEffect } from 'react';
+
+const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 const sortLogs = (logs) => {
 	// only focused on the first few so we'll skip any older than a few weeks
@@ -47,15 +51,84 @@ const calculateTrend = (logs) => {
 	const denomenator = (count * sumX2) - (sumX*sumX);
 
 	return numerator / denomenator;
+};
+
+const waitForResponse = async (jobId, apiKey) => {
+	const resp = await fetch(`https://api.symbl.ai/v1/job/${jobId}`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${apiKey}`
+		}
+	});
+
+	const jobStatus = await resp.json();
+
+	if(jobStatus.status == "completed") {
+		return true;
+	} else if (jobStatus.status == "failed") {
+		return false;
+	} else {
+		await sleep(2000);
+		return waitForResponse(jobId, apiKey);
+	}
 }
 
-const SuggestedActivities = ({ logs }) => {
+const analyzeSentiment = async (logText, apiKey) => {
+	const postText = await fetch('https://api.symbl.ai/v1/process/text', {
+		method: 'POST',
+		headers: {
+			'Content-Type': 'application/json',
+			'Authorization': `Bearer ${apiKey}`
+		},
+		body: JSON.stringify({
+			messages: [
+				{
+					payload: {
+						content: logText,
+						contentType: 'text/plain'
+					},
+				}
+			]
+		})
+	});
+
+	const responseJson = await postText.json();
+
+	let responseCompleted = await waitForResponse(responseJson.jobId, apiKey);
+
+	if(!responseCompleted) {
+		return false;
+	}
+
+	const getAnalysis = await fetch(`https://api.symbl.ai/v1/conversations/${responseJson.conversationId}/messages?sentiment=true`, {
+		method: 'GET',
+		headers: {
+			'Authorization': `Bearer ${apiKey}` 
+		}
+	});
+
+	const analysis = await getAnalysis.json();
+
+	return analysis;
+};
+
+const SuggestedActivities = ({ logs, symbl, dispatch }) => {
 	// can assume that last will always be the most recent
+	const [foundSentiment, setFoundSentiment] = useState(false);
 	const latestLog = logs[logs.length - 1];
 	const trimmed = latestLog.state.replace(/\s/g, '');
 	const { level } = colorMap[trimmed];
 
 	const trend = calculateTrend(logs);
+
+	useEffect(async () => {
+		// makes sure it isn't called multiple times
+		if(foundSentiment === false) {
+			const analysis = await analyzeSentiment(latestLog.activity, symbl.token);
+			setFoundSentiment(true);
+			dispatch(setLogState({ id: latestLog.id, state: analysis.messages[0].sentiment.suggested }));
+		}
+	})
 
 	return <div>
 	{level <= 2 && <>

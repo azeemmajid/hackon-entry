@@ -30,6 +30,7 @@ const findStreak = (logs) => {
 };
 
 function Activity({ logs }) {
+    console.log(logs);
     // const { log, setLog } = logState;
     // const sorted = logs.map(sortByMonth);
     const levels = logs.map((l) => colorMap[l.state.replace(/\s/g, '')].level);
