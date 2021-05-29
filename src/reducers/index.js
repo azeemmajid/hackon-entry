@@ -3,7 +3,6 @@ import { combineReducers } from 'redux';
 const logs = (state = [], action) => {
 	switch(action.type) {
 		case 'ADD_LOG':
-			console.log(action);
 			return [
 				...state,
 				{

@@ -39,7 +39,7 @@ function FeelingInput({ dispatch }) {
 
     return (
         <div>
-            <button onClick={reset}>DEV RESET BUTTON</button>
+            <button onClick={() => reset()}>DEV RESET BUTTON</button>
             <Modal isOpen={modalOpen} onRequestClose={toggleErrorModal}>
                 {error.state ? 'Feeling option is Required!' : ''}
                 <br />
