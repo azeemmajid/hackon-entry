@@ -3,27 +3,29 @@ import React from 'react';
 export function LogEntry({ state, activity, timestamp }) {
     const styles = {
         VeryHappy: {
-            color: 'green'
+            color: 'green',
         },
         Happy: {
-            color: 'lightgreen'
+            color: 'lightgreen',
         },
         Mediocre: {
-            color: 'blue'
+            color: 'blue',
         },
         Sad: {
-            color: 'orange'
+            color: 'orange',
         },
         VerySad: {
-            color: 'red'
-        }
+            color: 'red',
+        },
     };
 
     const trimmed = state.replace(/\s/g, '');
     return (
         <div>
             <div>{new Date(timestamp).toDateString()}</div>
-            <div className={trimmed} style={styles[trimmed]}>{trimmed}</div>
+            <div className={trimmed} style={styles[trimmed]}>
+                {trimmed}
+            </div>
             <div>{activity}</div>
         </div>
     );
