@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { FeelingSelector, Journal } from '../components';
+import { connect } from 'react-redux';
+import { addLog, resetLog } from '../actions';
 import { createId } from '../lib';
 
-export function FeelingInput({ feelingState, logState }) {
+function FeelingInput({ dispatch }) {
     const [error, setError] = useState({});
     const [modalOpen, setModal] = useState(false);
-    const { feeling, setFeeling } = feelingState;
-    const { log, setLog } = logState;
+    const [feeling, setFeeling] = useState({});
+    // const { feeling, setFeeling } = feelingState;
 
     const toggleErrorModal = () => {
         setModal(!modalOpen);
@@ -23,26 +25,21 @@ export function FeelingInput({ feelingState, logState }) {
             return;
         }
         setError({});
-        const newLog = log.concat([
-            {
-                ...feeling,
-                timestamp: (new Date()).getTime(),
-                id: createId(),
-            },
-        ]);
-        setLog(newLog);
+        dispatch(addLog({
+            ...feeling,
+            id: createId(),
+        }));
     };
+
+    const reset = () => {dispatch(resetLog())};
 
     useEffect(() => {
         console.log(feeling);
     }, [feeling]);
 
-    useEffect(() => {
-        console.log(log);
-    }, [log]);
-
     return (
         <div>
+            <button onClick={reset}>DEV RESET BUTTON</button>
             <Modal isOpen={modalOpen} onRequestClose={toggleErrorModal}>
                 {error.state ? 'Feeling option is Required!' : ''}
                 <br />
@@ -56,3 +53,5 @@ export function FeelingInput({ feelingState, logState }) {
         </div>
     );
 }
+
+export default connect()(FeelingInput);

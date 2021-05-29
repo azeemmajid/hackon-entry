@@ -1,4 +1,5 @@
 import React from 'react';
+import { connect } from 'react-redux';
 import { LogEntry, Graph } from '../components';
 import { colorMap } from '../lib';
 
@@ -11,12 +12,12 @@ const sortByMonth = (logEntry) => {
     return byMonth;
 };
 
-export function Activity({ logState }) {
-    const { log, setLog } = logState;
-    const sorted = log.map(sortByMonth);
-    const levels = log.map((l) => colorMap[l.state.replace(/\s/g, '')].level);
+function Activity({ logs }) {
+    // const { log, setLog } = logState;
+    const sorted = logs.map(sortByMonth);
+    const levels = logs.map((l) => colorMap[l.state.replace(/\s/g, '')].level);
     const activityDisplay = [];
-    log.forEach((logEntry) => {
+    logs.forEach((logEntry) => {
         activityDisplay.push(
             <LogEntry state={logEntry.state} activity={logEntry.activity} timestamp={logEntry.timestamp} />
         );
@@ -25,7 +26,11 @@ export function Activity({ logState }) {
         <div>
             <div>Activity</div>
             <Graph entries={levels} />
-            <div>{activityDisplay}</div>
+            <div>{JSON.stringify(logs)}</div>
         </div>
     );
 }
+
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps)(Activity);
